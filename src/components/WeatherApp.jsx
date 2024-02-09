@@ -1,6 +1,7 @@
 import { useState } from "react";
-import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import { Form, FormControl, Button } from "react-bootstrap";
 import FetchWeatherData from "./FetchWeatherData";
 import FetchForecastData from "./FetchForecastData";
@@ -36,21 +37,26 @@ const WeatherApp = (props) => {
   };
 
   return (
-    <Navbar
-      expand="lg"
-      data-bs-theme="dark"
-      style={{ backgroundColor: "lightblue" }}
-    >
-      <Container fluid>
-        <Navbar.Brand href="#">
+    <Container fluid>
+      <Row>
+        <Col
+          xs={12}
+          className="d-flex flex-column justify-content-center align-items-center"
+        >
+          <h1>SempreAlSole.com</h1>
+          <h3>Se la giornata ti vuoi godere, il meteo devi prevedere!</h3>
           <img
             src="https://img.freepik.com/premium-vector/hello-summer-with-beach-cute-sun_123553-408.jpg"
             alt="logo"
+            className="text-center"
             style={{ width: "150px", height: "auto" }}
           />
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="navbarSupportedContent" />
-        <Navbar.Collapse id="navbarSupportedContent">
+        </Col>
+        <Col
+          xs={12}
+          className="d-flex flex-column justify-content-center align-items-center"
+        >
+          <h5>Dove vuoi andare? </h5>
           <Form onSubmit={handleSubmit} className="mx-auto">
             <FormControl
               type="text"
@@ -64,6 +70,17 @@ const WeatherApp = (props) => {
               Cerca
             </Button>
           </Form>
+          <h6 className="text-center">
+            Ti mostreremo le condizioni metereologiche di oggi <br />e delle ore
+            dei prossimi 5 giorni,
+            <br /> per organizzare il tuo aperitivo in spiaggia nel momento
+            adatto e senza brutte sorprese!
+          </h6>
+        </Col>
+        <Col
+          xs={12}
+          className="d-flex flex-column justify-content-center align-items-center"
+        >
           {error && <p style={{ color: "red" }}>{error}</p>}
           {weatherData && (
             <div>
@@ -77,10 +94,6 @@ const WeatherApp = (props) => {
               <h2>Previsioni a 5 giorni per {forecastData.city.name}</h2>
               <ul>
                 {forecastData.list.map((item) => (
-                  // <li key={item.dt}>
-                  //   {new Date(item.dt * 1000).toLocaleDateString()}:{" "}
-                  //   {item.weather[0].description}, {item.main.temp} °C
-                  // </li>
                   <li key={item.dt}>
                     {new Date(item.dt * 1000).toLocaleDateString()}{" "}
                     {new Date(item.dt * 1000).toLocaleTimeString()}:{" "}
@@ -90,9 +103,9 @@ const WeatherApp = (props) => {
               </ul>
             </div>
           )}
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
