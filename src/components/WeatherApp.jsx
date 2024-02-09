@@ -131,10 +131,15 @@ const WeatherApp = (props) => {
         >
           {error && <p style={{ color: "red" }}>{error}</p>}
           {weatherData && (
-            <div>
+            <div className="d-flex flex-column justify-content-center align-items-center m-3">
               <h2>Il meteo di oggi a {weatherData.name}</h2>
-              <p>Temperatura: {weatherData.main.temp} °C</p>
-              <p>Condizioni: {weatherData.weather[0].description}</p>
+              <h4>Temperatura: {weatherData.main.temp} °C</h4>
+
+              <img
+                src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`}
+                alt={weatherData.weather[0].description}
+              />
+              <h5>{weatherData.weather[0].description}</h5>
             </div>
           )}
           {forecastData && (
@@ -143,6 +148,10 @@ const WeatherApp = (props) => {
               <ul>
                 {forecastData.list.map((item) => (
                   <li key={item.dt}>
+                    <img
+                      src={`http://openweathermap.org/img/wn/${item.weather[0].icon}.png`}
+                      alt={item.weather[0].description}
+                    />
                     {new Date(item.dt * 1000).toLocaleDateString()}{" "}
                     {new Date(item.dt * 1000).toLocaleTimeString()}:{" "}
                     {item.weather[0].description}, {item.main.temp} °C

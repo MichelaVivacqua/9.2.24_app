@@ -29,6 +29,10 @@ const WeatherForCity = ({ city }) => {
       {weatherData && (
         <div>
           <h2>Il meteo di oggi a {weatherData.name}</h2>
+          <img
+            src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`}
+            alt={weatherData.weather[0].description}
+          />
           <p>Temperatura: {weatherData.main.temp} °C</p>
           <p>Condizioni: {weatherData.weather[0].description}</p>
         </div>
