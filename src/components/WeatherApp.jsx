@@ -114,6 +114,8 @@ const WeatherApp = (props) => {
             disabled={fetchingLocation}
             onClick={handleLocationButtonClick}
           >
+            {" "}
+            <i className="bi bi-geo-alt"></i>
             {fetchingLocation ? "Rilevando posizione..." : "Rileva Posizione"}
           </Button>
           <h6 className="text-center">
