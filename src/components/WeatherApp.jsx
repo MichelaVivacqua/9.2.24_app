@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -12,9 +12,43 @@ const WeatherApp = (props) => {
   const [weatherData, setWeatherData] = useState(null);
   const [forecastData, setForecastData] = useState(null);
   const [error, setError] = useState(null);
+  const [fetchingLocation, setFetchingLocation] = useState(false);
 
   const handleInputChange = (event) => {
     setCity(event.target.value);
+  };
+
+  const handleLocationButtonClick = () => {
+    setFetchingLocation(true);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        try {
+          const weatherResponse = await FetchWeatherData(
+            null,
+            position.coords.latitude,
+            position.coords.longitude
+          );
+          setWeatherData(weatherResponse);
+          setError(null);
+
+          const forecastResponse = await FetchForecastData(
+            null,
+            position.coords.latitude,
+            position.coords.longitude
+          );
+          setForecastData(forecastResponse);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+          setError("Errore durante il recupero dei dati. Riprova più tardi.");
+        }
+        setFetchingLocation(false);
+      },
+      (error) => {
+        console.error("Error getting user location:", error);
+        setError("Impossibile rilevare la tua posizione.");
+        setFetchingLocation(false);
+      }
+    );
   };
 
   const handleSubmit = async (event) => {
@@ -31,8 +65,8 @@ const WeatherApp = (props) => {
       const forecastResponse = await FetchForecastData(city);
       setForecastData(forecastResponse);
     } catch (error) {
-      console.error("Errore durante la ricerca della città:", error);
-      setError("Errore durante la ricerca della città. Riprova più tardi.");
+      console.error("Error fetching data:", error);
+      setError("Errore durante il recupero dei dati. Riprova più tardi.");
     }
     setCity("");
   };
@@ -47,7 +81,7 @@ const WeatherApp = (props) => {
           <h1>SempreAlSole.com</h1>
           <h3>Se la giornata ti vuoi godere, il meteo devi prevedere!</h3>
           <Link to="./MeteConsigliate">
-            <i class="bi bi-star-fill"></i>METE CONSIGLIATE
+            <i className="bi bi-star-fill"></i>METE CONSIGLIATE
           </Link>
           <img
             src="https://img.freepik.com/premium-vector/hello-summer-with-beach-cute-sun_123553-408.jpg"
@@ -61,10 +95,10 @@ const WeatherApp = (props) => {
           className="d-flex flex-column justify-content-center align-items-center m-3"
         >
           <h5>Dove vuoi andare? </h5>
-          <Form onSubmit={handleSubmit} className="m-5 d-flex">
+          <Form onSubmit={handleSubmit} className="mb-2 d-flex">
             <FormControl
               type="text"
-              placeholder="Cerca città"
+              placeholder="Scrivi qui la città"
               className="mr-sm-2"
               value={city}
               onChange={handleInputChange}
@@ -74,8 +108,16 @@ const WeatherApp = (props) => {
               Cerca
             </Button>
           </Form>
+          <Button
+            className="m-2"
+            variant="primary"
+            disabled={fetchingLocation}
+            onClick={handleLocationButtonClick}
+          >
+            {fetchingLocation ? "Rilevando posizione..." : "Rileva Posizione"}
+          </Button>
           <h6 className="text-center">
-            Ti mostreremo le condizioni metereologiche fino ai prossimi 5
+            Ti mostreremo le condizioni meteorologiche fino ai prossimi 5
             giorni,
             <br /> per organizzare il tuo aperitivo in spiaggia nel momento
             adatto e senza brutte sorprese!

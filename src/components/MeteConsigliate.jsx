@@ -25,7 +25,7 @@ const MeteConsigliate = () => {
           <h5 className="text-center">
             L'anno scorso, in questa giornata, le mete che hanno registrato le
             temperature più alte sono state: <br />
-            Catania, Lipari e Roma
+            Catania, Lipari e Licata
           </h5>
           <h6 className="text-center m-4">
             Ti mostriamo qui il meteo attuale delle nostre mete consigliate:
@@ -40,7 +40,7 @@ const MeteConsigliate = () => {
           <WeatherForCity city="Lipari" />
         </Col>
         <Col>
-          <WeatherForCity city="Roma" />
+          <WeatherForCity city="Licata" />
         </Col>
       </Row>
     </Container>
