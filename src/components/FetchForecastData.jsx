@@ -1,7 +1,7 @@
 const FetchForecastData = async (city) => {
   try {
     const API_KEY = "bb4ef60fc701792933adb0a17926d112";
-    const API_BASE_URL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`;
+    const API_BASE_URL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric&lang=it`;
 
     const response = await fetch(API_BASE_URL);
     if (!response.ok) {
